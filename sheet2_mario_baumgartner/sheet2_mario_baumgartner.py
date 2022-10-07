@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 def mean(x):
     """Calculate the mean for an array-like object x.
-
+    nice cock
     Parameters
     ----------
     x : array-like
