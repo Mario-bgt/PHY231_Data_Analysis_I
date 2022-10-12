@@ -1,10 +1,19 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 c = 299792458
-tau = 2e-6
-s = 3e4
+g = 9.81
 
-res = np.sqrt(1-((c**2)*(tau**2))/(s**2))
-print(res)
+t = np.linspace(0, 1e8, 2000)
+
+
+def v(t):
+    return (g*t)/(1+((g**2)*(t**2))/(c**2))
+
+
+fig = plt.figure()
+plt.plot(t, v(t))
+plt.show()
+
 
 
