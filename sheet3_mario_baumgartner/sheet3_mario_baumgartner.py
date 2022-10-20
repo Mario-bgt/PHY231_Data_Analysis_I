@@ -1,10 +1,11 @@
 """Datenanalysis sheet 3 of Mario Baumgartner"""
-# TO DO: -delet show, enable all ex, ans ex1c, make ex2
+# TO DO: make ex2
 
 
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.stats
+import math
 
 
 def integrate(dist, lower, upper):
@@ -29,14 +30,18 @@ def integrate(dist, lower, upper):
 
 def binom_pmf(r, n, p):
     """Calculate the Binomial Distribution
-
     Parameters
     ---------
     r: int
-        text
+        number of successes
     n: int
-        text
+        successive independent trials
     p: float
+        probability of a success
+
+     Returns
+    -------
+        the total probability of achieving r success and n-r failure
 
     """
     number_of_ways = np.math.factorial(n) / (np.math.factorial(n - r) * np.math.factorial(r))
@@ -58,7 +63,7 @@ def ex1():
         plt.ylabel("Chance of getting detected")
         plt.xlabel("Amount of detectors")
         plt.savefig('ex1_a_probability_distribution.pdf')
-        plt.show()
+        # plt.show()
 
     plot_probability_distribution(4)
 
@@ -87,7 +92,9 @@ def ex1():
     plt.bar(r_values, dist)
     plt.xlabel("Number of particles detected")
     plt.savefig('ex1_c_probability_distribution.pdf')
-    plt.show()
+    # plt.show()
+    print("Since the width is approximately sqrt(1000) I would argue it agrees with one whom would be expected from a "
+          "Poisson distribution")
 
 
 def ex3():
@@ -112,28 +119,76 @@ def ex4():
     r_values = list(range(n + 1))
     dist = [binom_pmf(r, n, p) for r in r_values]
     res = sum(dist[390:])
-    print(f"The chance of detecting more than 390 Particles is {res}")
+    print(f"The chance of detecting more than 390 Particles is {res:.3f}")
 
     ###Ex 4 b) ####
     mean = n * p
     var = n * p * (1 - p)
     std = np.sqrt(var)
-    print(mean, var, std)
-
-    def pdf(x, mean, var):
-        return (1 / np.sqrt(2 * np.pi*var)) * np.exp(-((x - mean) ** 2) / (2 * var))
-
-    x = np.linspace(0, n, n + 1)
+    x = list(range(n + 1))
+    y = []
+    for val in x:
+        y.append((1 / np.sqrt(2 * np.pi * var)) * np.exp(-((val - mean) ** 2) / (2 * var)))
     plt.figure()
-    plt.plot(x, pdf(x, mean, var), 'r')
+    plt.plot(x, y, 'r')
     plt.bar(r_values, dist)
     plt.xlabel("Number of particles detected")
     plt.savefig('ex4_b_probability_distribution.pdf')
-    plt.show()
+    # plt.show()
+    print("The approximation fits very good")
 
+    ###Ex 4 c) ####
+    n = 500
+    mean = n * p
+    var = n * p * (1 - p)
+    std = np.sqrt(var)
+    x1 = list(range(n + 1))
+    y1 = [(1 / np.sqrt(2 * np.pi * var)) * np.exp(-((val - mean) ** 2) / (2 * var)) for val in x1]
+    lamda = 410  # average number of successes
+    x2 = list(range(n))
+    # I couldn't think of a better way to calculate y values since python itself cant convert 200 or more factroial to
+    # float
+    y2 = []
+    for val in x2:
+        temp = 1
+        for r in range(1, val):
+            temp = temp * (lamda / r)
+        y2.append(math.pow(np.e, -lamda) * temp)
+    # y2 = [(math.pow(np.e, -lamda) * lamda ** val) / (math.factorial(int(val))) for val in x2]
+    plt.figure()
+    plt.plot(x1, y1, 'r')
+    plt.plot(x2, y2)
+    plt.title("Poisson Distribution vs Gaussian")
+    plt.savefig("ex4_c_poisson_gauss.pdf")
+    # plt.show()
+    print(f"As expected the poisson distribution has a bigger variance but is a good approximation")
+
+    ###Ex 4 d) ####
+    n = 500
+    time = 125
+    p = 0.18
+    new_n = n/time
+    mean = new_n * p
+    var = new_n * p * (1 - p)
+    x1 = list(range(int(new_n + 1)))
+    y1 = [(1 / np.sqrt(2 * np.pi * var)) * np.exp(-((val - mean) ** 2) / (2 * var)) for val in x1]
+    x2 = list(range(int(new_n)))
+    y2 = []
+    for val in x2:
+        temp = 1
+        for r in range(1, val):
+            temp = temp * (mean / r)
+        y2.append(math.pow(np.e, -mean) * temp)
+    # y2 = [(math.pow(np.e, -lamda) * lamda ** val) / (math.factorial(int(val))) for val in x2]
+    plt.figure()
+    plt.plot(x1, y1, 'r')
+    plt.plot(x2, y2)
+    plt.savefig("ex4_d_poisson_gauss.pdf")
+    # plt.show()
+    print("Since now we have way less Data the distribution doesnt look very smooth and isn't even close to part c)")
 
 
 if __name__ == '__main__':
-    # ex1()
-    # ex3()  # uncomment to run ex3
-    ex4()  # uncomment to run ex4
+    ex1()
+    ex3()
+    ex4()
