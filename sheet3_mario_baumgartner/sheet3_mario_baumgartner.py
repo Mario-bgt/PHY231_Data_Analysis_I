@@ -1,5 +1,4 @@
 """Datenanalysis sheet 3 of Mario Baumgartner"""
-# TO DO: make ex2
 
 
 import numpy as np
@@ -91,6 +90,7 @@ def ex1():
     plt.figure()
     plt.bar(r_values, dist)
     plt.xlabel("Number of particles detected")
+    plt.ylabel("Probability Density")
     plt.savefig('ex1_c_probability_distribution.pdf')
     # plt.show()
     print("Since the width is approximately sqrt(1000) I would argue it agrees with one whom would be expected from a "
@@ -133,6 +133,7 @@ def ex4():
     plt.plot(x, y, 'r')
     plt.bar(r_values, dist)
     plt.xlabel("Number of particles detected")
+    plt.ylabel("Probability Density")
     plt.savefig('ex4_b_probability_distribution.pdf')
     # plt.show()
     print("The approximation fits very good")
@@ -158,6 +159,8 @@ def ex4():
     plt.figure()
     plt.plot(x1, y1, 'r')
     plt.plot(x2, y2)
+    plt.ylabel("Probability Density")
+    plt.xlabel("Amount of detected particles")
     plt.title("Poisson Distribution vs Gaussian")
     plt.savefig("ex4_c_poisson_gauss.pdf")
     # plt.show()
@@ -183,6 +186,8 @@ def ex4():
     plt.figure()
     plt.plot(x1, y1, 'r')
     plt.plot(x2, y2)
+    plt.ylabel("Probability Density")
+    plt.xlabel("Amount of detected particles")
     plt.savefig("ex4_d_poisson_gauss.pdf")
     # plt.show()
     print("Since now we have way less Data the distribution doesnt look very smooth and isn't even close to part c)")
