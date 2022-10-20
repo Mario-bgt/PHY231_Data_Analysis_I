@@ -51,7 +51,7 @@ def binom_pmf(r, n, p):
 def ex1():
     print("Exercise 1")
 
-    ####Ex 1 a) ####
+    # Ex 1 a)
     def plot_probability_distribution(n):
         n = 4
         p = 0.85
@@ -66,7 +66,7 @@ def ex1():
 
     plot_probability_distribution(4)
 
-    ####Ex 1 b) ####
+    # Ex 1 b)
     n = 2
     while True:
         n += 1
@@ -78,7 +78,7 @@ def ex1():
             break
     print(f"We need at least {n} detectors in order to ensure that the particle detection efficiency is above 99%")
 
-    ####Ex 1 c) ####
+    # Ex 1 c)
     n = 4
     p = 0.85
     r_values = list(range(n + 1))
@@ -113,7 +113,7 @@ def ex3():
 
 def ex4():
     print("Exercise 4")
-    ####Ex 4 a) ####
+    # Ex 4 a)
     n = 500
     p = 0.82
     r_values = list(range(n + 1))
@@ -121,7 +121,7 @@ def ex4():
     res = sum(dist[390:])
     print(f"The chance of detecting more than 390 Particles is {res:.3f}")
 
-    ###Ex 4 b) ####
+    # Ex 4 b)
     mean = n * p
     var = n * p * (1 - p)
     std = np.sqrt(var)
@@ -138,7 +138,7 @@ def ex4():
     # plt.show()
     print("The approximation fits very good")
 
-    ###Ex 4 c) ####
+    # Ex 4 c)
     n = 500
     mean = n * p
     var = n * p * (1 - p)
@@ -147,8 +147,8 @@ def ex4():
     y1 = [(1 / np.sqrt(2 * np.pi * var)) * np.exp(-((val - mean) ** 2) / (2 * var)) for val in x1]
     lamda = 410  # average number of successes
     x2 = list(range(n))
-    # I couldn't think of a better way to calculate y values since python itself cant convert 200 or more factroial to
-    # float
+    # I couldn't think of a better way to calculate y values since python itself cant convert 200 or more factorial to
+    # float. If you have a better idea please let me know.
     y2 = []
     for val in x2:
         temp = 1
@@ -166,7 +166,7 @@ def ex4():
     # plt.show()
     print(f"As expected the poisson distribution has a bigger variance but is a good approximation")
 
-    ###Ex 4 d) ####
+    # Ex 4 d)
     n = 500
     time = 125
     p = 0.18
