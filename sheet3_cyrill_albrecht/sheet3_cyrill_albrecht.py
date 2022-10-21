@@ -1,5 +1,3 @@
-import math
-
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.stats
@@ -35,20 +33,19 @@ def ex1():
     print("Exercise 1")
 
     # Exercise1a
-    def probability_distribution(n):
-        n = 4
-        p = 0.85
-        all_r = list(range(n + 1))
-        dist = []
-        for r in all_r:
-            dist.append(pmf_binomial(r, n, p))
-        plt.figure()
-        plt.bar(all_r, dist)
-        plt.ylabel("probability getting detected")
-        plt.xlabel("Amount of detectors")
-        plt.savefig('ex1_a.pdf')
-        plt.show()
-    probability_distribution(4)
+
+    n = 4
+    p = 0.85
+    all_r = list(range(n + 1))
+    dist = []
+    for r in all_r:
+        dist.append(pmf_binomial(r, n, p))
+    plt.figure()
+    plt.bar(all_r, dist)
+    plt.ylabel("probability getting detected")
+    plt.xlabel("Amount of detectors")
+    plt.savefig('ex1_a.pdf')
+    # plt.show()
 
     # Exercise 1b
 
@@ -83,7 +80,7 @@ def ex1():
     plt.xlabel("Number of particles detected")
     plt.ylabel("Probability Density")
     plt.savefig('ex1_c.pdf')
-    plt.show()
+    # plt.show()
     print("The square root of 1000 is approximately the same as the width, what tells that it agrees with Poisson")
 
 
@@ -97,7 +94,8 @@ def ex3():
     print("Probabilities:")
     print(f"3a) {prob_a:.3f} to be within [0.97, 1.03]m")
     print(f"3b) {prob_b:.3f} to be within [0.99, 1.00]m")
-    print(f"3c) {prob_c:.6f} to be within [0.95, 1.05]m")
+    print(f"3c) {prob_c:.6f} to be within [0.95, 1.05]m")  # 6 numbers after the coma are needed otherwise it will
+    # round it to 1
     print(f"3d) {prob_d:.3f} to be less than 1.015 m")
 
 
@@ -130,7 +128,7 @@ def ex4():
     plt.xlabel("Number of particles detected")
     plt.ylabel("Probability Density")
     plt.savefig('ex4b.pdf')
-    plt.show()
+    # plt.show()
     print("The gaussian approximation fits well")
 
     # Exercise 4c
@@ -138,7 +136,6 @@ def ex4():
     n = 500
     mean = n * p
     variance = n * p * (1 - p)
-    standard_deviation = np.sqrt(variance)
     x_1 = list(range(n + 1))
     x_2 = list(range(n))
     y_1 = []
@@ -150,15 +147,14 @@ def ex4():
         i = 1
         for r in range(1, val):
             i = i * (lamda / r)
-        y_2.append(math.pow(np.e, -lamda) * i)
+        y_2.append(np.math.pow(np.e, -lamda) * i)
     plt.figure()
     plt.plot(x_1, y_1, 'g')
     plt.plot(x_2, y_2)
     plt.ylabel("Probability Density")
     plt.xlabel("Detected particles")
-    plt.title("Poisson Distribution vs Gaussian")
     plt.savefig("ex4c.pdf")
-    plt.show()
+    # plt.show()
     print("it's a good approximation, even if the variance in the poisson is bigger (as expected)")
 
     # Exercise 4d
@@ -179,14 +175,14 @@ def ex4():
         i = 1
         for r in range(1, val):
             i = i * (mean / r)
-        y_2.append(math.pow(np.e, -mean) * i)
+        y_2.append(np.math.pow(np.e, -mean) * i)
     plt.figure()
     plt.plot(x_1, y_1, 'g')
     plt.plot(x_2, y_2)
     plt.ylabel("Probability Density")
     plt.xlabel("Detected particles")
     plt.savefig("ex4_d.pdf")
-    plt.show()
+    # plt.show()
     print("Now it isn't a good approximation, because we have less data")
 
 
