@@ -45,8 +45,8 @@ def ex4():
     print(f"The slope for a beach with grain the size of 1.5mm in diameter is {y:.2f} +/- {err:.2f} when taking the "
           f"correlation between m and q into account.\n")
     print(f"\nA smaller uncertainty was obtained when taking the correlation between m and q into account.\n This is "
-          f"not inuitive since taking the covariance into account one would expect the uncertainty to increase.\n "
-          f"However since the covariance is negative the uncertainty decreases")
+          f"not intuitive since taking the covariance into account one would expect the uncertainty to increase.\n "
+          f"However since the covariance is negative the uncertainty decreases.")
 
 
 if __name__ == '__main__':
