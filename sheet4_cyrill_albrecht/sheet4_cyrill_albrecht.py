@@ -50,30 +50,30 @@ def ex4():
     m = 16.1
     q = -2.61
     plt.figure()
-    plt.errorbar(diameter, slope, yerr=slope_err, fmt='g')
-    plt.plot(diameter, diameter * m + q, 'b')
+    plt.errorbar(diameter, slope, yerr=slope_err, fmt='b.')
+    plt.plot(diameter, diameter * m + q, 'r-')
     plt.xlabel('diameter sand grain in mm')
     plt.ylabel('slope')
     plt.savefig('ex4_4.pdf')
-    plt.show()
+    # plt.show()
 
     cov_mat = [[1.068, 0], [0, 0.118]]
     diameter = 1.5
-    y = diameter * m + q
+    slope = diameter * m + q
     matrices = np.array([[1.5, 1]])
-    matrices_transp = np.array([[1.5], [1]])
-    variance = float((matrices @ cov_mat @ matrices_transp))
-    err = abs(variance ** .5)
-    print(f"the slope of a beach whose sand grains have the diameter of 1.5 mm is {y:.2f} +/- {err:.2f}.\n")
+    matrices_transp = matrices.transpose()
+    variance = float(np.dot(np.dot(matrices, cov_mat) , matrices_transp))
+    err = abs(np.sqrt(variance))
+    print(f"the slope of a beach whose sand grains have the diameter of 1.5 mm is {slope:.2f} +/- {err:.2f}.\n")
 
     cov_mat = [[1.068, -0.302], [-0.302, 0.118]]
     diameter = 1.5
-    y = diameter * m + q
+    slope = diameter * m + q
     matrices = np.array([[1.5, 1]])
-    matrices_transp = np.array([[1.5], [1]])
-    var = float((matrices @ cov_mat @ matrices_transp))
-    err = abs(var ** .5)
-    print(f"the slope of a beach whose sand grains have the diameter of 1.5 mm is {y:.2f} +/- {err:.2f}.\n")
+    matrices_transp = matrices.transpose()
+    variance = float(np.dot(np.dot(matrices, cov_mat), matrices_transp))
+    err = abs(np.sqrt(variance))
+    print(f"the slope of a beach whose sand grains have the diameter of 1.5 mm is {slope:.2f} +/- {err:.2f}.\n")
     print(f"with the correlation of m and q the uncertainty is smaller. The covariance is negative,as a result the "
           f"uncertainty getting smaller")
 
