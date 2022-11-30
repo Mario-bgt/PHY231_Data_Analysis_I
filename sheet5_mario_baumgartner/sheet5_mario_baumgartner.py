@@ -1,12 +1,4 @@
-"""Skeleton for Data Analysis Fall 2022 sheet 5.
-
-This sheet helps to structure the code for the exercises of sheet 5.
-It shows idioms and best practices for writing code in Python.
-
-You can directly use this sheet and modify it.
-
-(It is not guaranteed to be bug free)
-"""
+"""Datenanalysis sheet 4 of Mario Baumgartner"""
 import numpy as np
 import scipy.optimize as opt
 from matplotlib import pyplot as plt
@@ -29,7 +21,7 @@ def current_ohmslaw(U, R):
         float or array: Value of the linear function. Shape is the broadcast shape of
             the inputs.
     """
-    pass  # TODO: implement ohm's law.
+    return U/R
 
 
 def current_ohmslaw_bias(U, R, bias=None):
@@ -58,7 +50,7 @@ def current_ohmslaw_bias(U, R, bias=None):
     """
     if bias is None:
         bias = 0  # with this, we can also use the function without bias.
-    pass  # implement ohm's law with bias. (try to re-use code from above by calling the function (NOT by copy paste))
+    return current_ohmslaw(U+bias, R)
 
 
 def chi2(x, y, err):
@@ -72,12 +64,21 @@ def chi2(x, y, err):
     Returns:
         float: The chi2 statistic.
     """
-    pass  # TODO: implement chi2.
+
+    return
 
 
 def ex_1a():
     """Run exercise 1a."""
-
+    data = np.loadtxt("current_measurements.txt")
+    v = data[:, 0]
+    a = data[:, 1]
+    plt.figure()
+    plt.scatter(v, current_ohmslaw(v, a))
+    plt.xlabel('Voltage')
+    plt.ylabel('Current')
+    plt.savefig('current_measurements_as_a_function_of_the_voltage.png')
+    plt.show()
     # Here is your code for exercise 1a.
     print("ex1a executed.")
 
@@ -87,10 +88,12 @@ def chi2_1b(R):
     """Calculate chi2 in dependence of the resistance."""
 
     # Here is your code for exercise 1b.
-    data = ...  # load it from file for example
+    data = np.loadtxt("current_measurements.txt")
     voltage = data[:, 0]  # etc.
-    current_pred = current_ohmslaw(...)
-    chi2val = chi2(...)
+    current = data[:, 1]
+    err = np.array([0.2 for i in voltage])
+    current_pred = current_ohmslaw(voltage, current)
+    chi2val = chi2(voltage, current, err)
     return chi2val
 
 
