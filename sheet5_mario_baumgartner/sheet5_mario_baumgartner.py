@@ -66,8 +66,8 @@ def chi2(x, y, err):
         float: The chi2 statistic.
     """
     chi = 0
-    for i, j in enumerate(x):
-        chi += ((j - y[i]) ** 2) / (err[i] ** 2)
+    for x, y, err in zip(x, y, err):
+        chi += ((x - y) ** 2) / err ** 2
     return chi
 
 
@@ -142,6 +142,7 @@ def ex_1e():
           f"doesnt explain the difference.")
     print("ex1e executed.")
 
+
 def chi2_2a(R):
     """Calculate chi2 in dependence of the resistance with varying uncertainty."""
     data = np.loadtxt("current_measurements_uncertainties.txt")
@@ -157,7 +158,7 @@ def ex_2b():
     resistances = np.linspace(1.6, 2, 100)
     chi2val = [chi2_2a(i) for i in resistances]
     best_R = resistances[chi2val.index(min(chi2val))]
-    print(f"The best Chi 2 value is {min(chi2val):.3f} corresponding to {best_R:.3f}. Ohm")
+    print(f"The best Chi 2 value is {min(chi2val):.3f} corresponding to {best_R:.3f} Ohm")
     print("ex2a executed.")
     plt.figure()
     plt.plot(resistances, chi2val)
@@ -170,6 +171,7 @@ def ex_2b():
     plt.close()
     print(f"The minimum value of chi 2 is {min(chi2val):.2f} and the best fit value for R is {best_R:.2f} Ohm. ")
     print("ex2b executed.")
+
 
 def ex_2c():
     data = np.loadtxt("current_measurements_uncertainties.txt")
@@ -208,10 +210,11 @@ def ex_2d():
           f"compatible with 2 Ohm.")
     print("ex2d executed.")
 
+
 def chi2_bias(x, y, err, e_bias):
     chi_bias = 0
-    for i, j in enumerate(x):
-        chi_bias += ((j - y[i] - e_bias) ** 2) / (err[i] ** 2)
+    for x, y, err in zip(x, y, err):
+        chi_bias += ((x - y - e_bias) ** 2) / err ** 2
     return chi_bias
 
 
@@ -252,30 +255,31 @@ def ex_2f():
     p2 = scipy.stats.chi2.pdf(min_chi_bias, ndf2)
     print(f"The goodness of the fit without bias is {goodness_of_fit1:.3f}.\n"
           f"The goodness of the fit with bias is {goodness_of_fit2:.3f}.\n"
-          f"The chance to get a better fit without the bias is {p1*100:.1f}%, which is way to low to be acceptable.\n"
-          f"The chance to get a better fit with the bias is {p2*100:.1f}%, which is a very good result\n")
+          f"The chance to get a better fit without the bias is {p1 * 100:.1f}%, which is way to low to be acceptable.\n"
+          f"The chance to get a better fit with the bias is {p2 * 100:.1f}%, which is a very good result\n")
     print("ex2f executed.")
+
 
 def ex_2g_2h():
     """Run exercise 2g."""
+
     def function(x, e, r):
         return e + x / r
+
     data = np.loadtxt("current_measurements_uncertainties.txt")
     voltage = data[:, 0]
     current = data[:, 1]
     popt, pcov = opt.curve_fit(function, voltage, current)
     print(f"The optimised parameters are: e_bias = {popt[0]:.3f} and R = {popt[1]:.3f}")
     print("ex2g executed.")
-    var_r = pcov[1][1]
-    err_r = np.sqrt(var_r)
-    var_e = pcov[0][0]
-    err_e = np.sqrt(var_e)
-    cov_re = pcov[0][1]
-    corr_coeff = cov_re / (err_e * err_r)
+    err_r = np.sqrt(pcov[1][1])
+    err_e = np.sqrt(pcov[0][0])
+    corr_coeff = pcov[0][1] / (err_e * err_r)
     print(f"The curve fit found that the error upon R is {err_r:.3f} and the error upon e_bias = {err_e:.3f}.\n"
           f"Their correlation coefficient is equal to {corr_coeff:.3f}.\n"
           f"The obtained error in 2e) is quite close to the one obtained here.")
     print("ex2h executed.")
+
 
 if __name__ == '__main__':
     ex_1a()
