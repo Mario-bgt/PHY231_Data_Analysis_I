@@ -247,6 +247,7 @@ def ex_2f():
     chi_bias = [chi_2e(i) for i in resistances]
     min_chi_unc = min(chi_unc)
     min_chi_bias = min(chi_bias)
+    # ndf = number of data - number of parameters
     ndf1 = 5
     ndf2 = 4
     goodness_of_fit1 = min_chi_unc / ndf1
