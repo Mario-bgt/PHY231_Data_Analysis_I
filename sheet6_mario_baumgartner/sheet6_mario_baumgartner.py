@@ -124,19 +124,52 @@ def ex2():
     plt.savefig('2b_unbinned_binned_2NLL.png')
     plt.clf()
     print('ex2b executed.')
-    # Part c)
 
+    # Part c)
+    def ex2chi2(t, y, x):
+        chi2 = 0
+        for i, y in enumerate(y):
+            chi2 += (y / np.sqrt(y) - (125 * np.exp(-x[i] / t) / (t * (1 - np.exp(-5 / t)))) / np.sqrt(y))**2
+        return chi2
+
+    counts, edges = np.histogram(data, bins=40)
+    bincenter = (edges[:-1] + edges[1:]) / 2
+    y_chi2 = [ex2chi2(i, counts, bincenter) for i in x_val]
+    y_chi2 = [y_chi2[i]-min(y_chi2) for i in range(1000)]
+    plt.plot(x_val, y_chi2, color='green', label='Chi2')
     plt.plot(x_val, y_val, color='red', label='Binned 2NLL')
     plt.plot(x_val, y_binned, color='blue', label='2NLL unbinned')
     plt.xlabel('tau [nanoseconds]')
-    plt.ylabel('2*NLL(tau)')
+    plt.ylabel('amount of data')
     plt.legend()
-    plt.title('Exercise 2b) NLL2 shifted and binned')
+    plt.title('Exercise 2c) added chi2 value')
     plt.grid()
     plt.show()
-    plt.savefig('2b_unbinned_binned_2NLL.png')
+    plt.savefig('2c_plot.png')
     plt.clf()
-    return None
+    print(f"2c) As already observed in 2b) the binned-NLL and unbinnned-NLL graphs are nearly equal.\n But the chi2 "
+          f"graph is off by 0.1. A reason could be that the data doesn't follow a gaussian distribution")
+    print('ex2c executed.')
+    # Part d)
+    y_binned = [binned_2nll(data, prob_2, i, 2) for i in x_val]
+    y_binned = [y_binned[i] - min(y_binned) for i in range(1000)]
+    counts, edges = np.histogram(data, bins=2)
+    bincenter = (edges[:-1] + edges[1:]) / 2
+    y_chi2 = [ex2chi2(i, counts, bincenter) for i in x_val]
+    y_chi2 = [y_chi2[i] - min(y_chi2) for i in range(1000)]
+    plt.plot(x_val, y_chi2, color='green', label='Chi2')
+    plt.plot(x_val, y_val, color='red', label='Binned 2NLL')
+    plt.plot(x_val, y_binned, color='blue', label='2NLL unbinned')
+    plt.xlabel('tau [nanoseconds]')
+    plt.ylabel('amount of data')
+    plt.legend()
+    plt.title('Exercise 2d) with only two bins')
+    plt.grid()
+    plt.show()
+    plt.savefig('2d_plot.png')
+    plt.clf()
+    print('ex2d executed.')
+
 
 
 def ex3():
@@ -145,11 +178,12 @@ def ex3():
     bincenter = (edges[:-1] + edges[1:]) / 2
     y_val = counts
     yerr = [np.sqrt(i) for i in counts]
-    plt.bar(bincenter, y_val, width=0.08, color='r', yerr=yerr)
-    plt.errorbar(bincenter, y_val, yerr=yerr, color="b", drawstyle='steps-mid')
+    plt.bar(bincenter, y_val, width=0.08, color='lightblue', yerr=yerr)
+    plt.errorbar(bincenter, y_val, yerr=yerr, color='blue', drawstyle='steps-mid')
     plt.xlabel('value')
     plt.ylabel('amount of data')
     plt.title('Exercise 3a) binned measurements')
+    plt.ylim(1200, 1800)
     plt.grid()
     plt.show()
     plt.savefig('3a_histogramm_plot.png')
@@ -173,10 +207,10 @@ def ex3():
     popt3, pcov3 = opt.curve_fit(fit3, bincenter, y_val)
     popt4, pcov4 = opt.curve_fit(fit4, bincenter, y_val)
     x_values = np.linspace(-1, 1, 1000)
-    y_fit1 = [fit1(i, popt1[0], popt1[1]) for i in x_values]
-    y_fit2 = [fit2(i, popt2[0], popt2[1], popt2[2]) for i in x_values]
-    y_fit3 = [fit3(i, popt3[0], popt3[1], popt3[2], popt3[3]) for i in x_values]
-    y_fit4 = [fit4(i, popt4[0], popt4[1], popt4[2], popt4[3], popt4[4]) for i in x_values]
+    y_fit1 = [fit1(i, *popt1) for i in x_values]
+    y_fit2 = [fit2(i, *popt2) for i in x_values]
+    y_fit3 = [fit3(i, *popt3) for i in x_values]
+    y_fit4 = [fit4(i, *popt4) for i in x_values]
     plt.plot(x_values, y_fit1, '-r', label='fit degree 1')
     plt.plot(x_values, y_fit2, '-g', label='fit degree 2')
     plt.plot(x_values, y_fit3, '-b', label='fit degree 3')
@@ -242,6 +276,6 @@ def ex3():
 if __name__ == '__main__':
     # You can uncomment the exercises that you don't want to run. Here we have just one,
     # but in general you can have more.
-    # ex_1()
-    # ex2()
+    ex_1()
+    ex2()
     ex3()
