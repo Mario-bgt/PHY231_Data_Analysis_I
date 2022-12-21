@@ -1,11 +1,8 @@
 """Datenanalysis sheet 4 of Mario Baumgartner"""
-import math
-
 import numpy as np
 import scipy.optimize as opt
 from matplotlib import pyplot as plt
 import math
-import scipy.stats as scs
 
 
 def nll(data, prob, a):
@@ -77,17 +74,17 @@ def ex_1():
     x_val = np.linspace(0, 1, 1000)
     y_val = [nll(data, prob_1a, i) for i in x_val]
     plt.plot(x_val, y_val)
-    plt.title('Ex_1a negative log likelihood plot')
+    plt.title('Exersice 1a) negative log likelihood plot')
     plt.xlabel('alpha')
     plt.ylabel('NLL(alpha)')
     plt.grid()
-    plt.show()
+    # plt.show()
     plt.savefig('ex1a.png')
     plt.clf()
     print("ex1a executed.")
     # Part b)
     nll_min = x_val[y_val.index(min(y_val))]
-    print(f'The maximum likelihood estimator is {nll_min:.2f}, which one can also see by looking at the plot.')
+    print(f'1b) The maximum likelihood estimator is {nll_min:.2f}, which one can also see by looking at the plot.')
     print('ex1b executed.')
 
 
@@ -102,11 +99,11 @@ def ex2():
     y_val = [two_nll(data, prob_2, i) for i in x_val]
     y_val = [y_val[i] - min(y_val) for i in range(1000)]
     plt.plot(x_val, y_val)
-    plt.title('Ex_2a twice negative log likelihood plot with shift to 0')
+    plt.title('Exercise 2a) twice negative log likelihood plot with shift to 0')
     plt.xlabel('tau')
     plt.ylabel('2*NLL(tau)')
     plt.grid()
-    plt.show()
+    # plt.show()
     plt.savefig('ex2a.png')
     plt.clf()
     print("ex2a executed.")
@@ -120,9 +117,10 @@ def ex2():
     plt.legend()
     plt.title('Exercise 2b) NLL2 shifted and binned')
     plt.grid()
-    plt.show()
-    plt.savefig('2b_unbinned_binned_2NLL.png')
+    # plt.show()
+    plt.savefig('ex2b.png')
     plt.clf()
+    print(f'2b) No it does not make a difference since the two lines are very close to one-other.')
     print('ex2b executed.')
 
     # Part c)
@@ -144,8 +142,8 @@ def ex2():
     plt.legend()
     plt.title('Exercise 2c) added chi2 value')
     plt.grid()
-    plt.show()
-    plt.savefig('2c_plot.png')
+    # plt.show()
+    plt.savefig('ex2c.png')
     plt.clf()
     print(f"2c) As already observed in 2b) the binned-NLL and unbinnned-NLL graphs are nearly equal.\n But the chi2 "
           f"graph is off by 0.1. A reason could be that the data doesn't follow a gaussian distribution")
@@ -165,11 +163,13 @@ def ex2():
     plt.legend()
     plt.title('Exercise 2d) with only two bins')
     plt.grid()
-    plt.show()
-    plt.savefig('2d_plot.png')
+    # plt.show()
+    plt.savefig('ex2d.png')
     plt.clf()
+    print('2d) The data is now closer to a gaussian distribution thus resulting in the graphs being closer to each.\n'
+          'Furthermore since the slope of chi2 and NLL binned are more flat it means their uncertainty is higher.\n'
+          'This is as expected since we use a lot less information.')
     print('ex2d executed.')
-
 
 
 def ex3():
@@ -185,8 +185,8 @@ def ex3():
     plt.title('Exercise 3a) binned measurements')
     plt.ylim(1200, 1800)
     plt.grid()
-    plt.show()
-    plt.savefig('3a_histogramm_plot.png')
+    # plt.show()
+    plt.savefig('ex3a.png')
     plt.clf()
     print('ex3a executed.')
 
@@ -222,8 +222,8 @@ def ex3():
     plt.ylim(1200, 1800)
     plt.grid()
     plt.legend()
-    plt.show()
-    plt.savefig('3b_fitted_plot.png')
+    # plt.show()
+    plt.savefig('ex3b.png')
     plt.clf()
     print('ex3b executed.')
     perr1 = np.sqrt(np.diag(pcov1))
@@ -231,12 +231,13 @@ def ex3():
     perr3 = np.sqrt(np.diag(pcov3))
     perr4 = np.sqrt(np.diag(pcov4))
     print(f'fit of degree 1: a = {popt1[0]:.2f} +/- {perr1[0]:.2f}, b = {popt1[1]:.2f} +/- {perr1[1]:.2f}')
-    print(
-        f'fit of degree 2: a = {popt2[0]:.2f} +/- {perr2[0]:.2f}, b = {popt2[1]:.2f} +/- {perr2[1]:.2f}, c = {popt2[2]:.2f} +/- {perr2[2]:.2f}')
-    print(
-        f'fit of degree 3: a = {popt3[0]:.2f} +/- {perr3[0]:.2f}, b = {popt3[1]:.2f} +/- {perr3[1]:.2f}, c = {popt3[2]:.2f} +/- {perr3[2]:.2f}, d = {popt3[3]:.2f} +/- {perr3[3]:.2f}')
-    print(
-        f'fit of degree 4: a = {popt4[0]:.2f} +/- {perr4[0]:.2f}, b = {popt4[1]:.2f} +/- {perr4[1]:.2f}, c = {popt4[2]:.2f} +/- {perr4[2]:.2f}, d = {popt4[3]:.2f} +/- {perr4[3]:.2f}, e = {popt4[4]:.2f} +/- {perr4[4]:.2f}')
+    print(f'fit of degree 2: a = {popt2[0]:.2f} +/- {perr2[0]:.2f}, b = {popt2[1]:.2f} +/- {perr2[1]:.2f}, '
+          f'c = {popt2[2]:.2f} +/- {perr2[2]:.2f}')
+    print(f'fit of degree 3: a = {popt3[0]:.2f} +/- {perr3[0]:.2f}, b = {popt3[1]:.2f} +/- {perr3[1]:.2f},'
+          f' c = {popt3[2]:.2f} +/- {perr3[2]:.2f}, d = {popt3[3]:.2f} +/- {perr3[3]:.2f}')
+    print(f'fit of degree 4: a = {popt4[0]:.2f} +/- {perr4[0]:.2f}, b = {popt4[1]:.2f} +/- {perr4[1]:.2f},'
+          f' c = {popt4[2]:.2f} +/- {perr4[2]:.2f}, d = {popt4[3]:.2f} +/- {perr4[3]:.2f},'
+          f' e = {popt4[4]:.2f} +/- {perr4[4]:.2f}')
     print('ex3c executed.')
     ndf1 = 18
     ndf2 = 17
@@ -257,25 +258,23 @@ def ex3():
     gof2 = chi2_fit2 / ndf2
     gof3 = chi2_fit3 / ndf3
     gof4 = chi2_fit4 / ndf4
-    cdf1 = scs.chi2.cdf(gof1 * ndf1, ndf1)
-    cdf2 = scs.chi2.cdf(gof2 * ndf2, ndf2)
-    cdf3 = scs.chi2.cdf(gof3 * ndf3, ndf3)
-    cdf4 = scs.chi2.cdf(gof4 * ndf4, ndf4)
     plt.scatter([1, 2, 3, 4], [gof1, gof2, gof3, gof4])
     plt.title('Exercise 3d) chi2 and polynom degree')
     plt.ylabel('Chi2/ndf')
     plt.xlabel('degree of the polynom')
-    plt.savefig('3d_chi2_polynom.png')
+    plt.savefig('ex3d.png')
     plt.grid()
-    plt.show()
+    # plt.show()
     plt.clf()
-
+    print('ex3d executed.')
+    # Part e)
+    print(f'I would argue it was a Polynom of degree 3 since the goodness of fit is the best and also the match of '
+          f'degree 3 and 4 is basically equally good.')
+    print('ex3e executed.')
     return None
 
 
 if __name__ == '__main__':
-    # You can uncomment the exercises that you don't want to run. Here we have just one,
-    # but in general you can have more.
     ex_1()
     ex2()
     ex3()
